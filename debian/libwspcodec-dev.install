@@ -1,0 +1,3 @@
+src/wspcodec.h usr/include/libwspcodec/wspcodec
+src/wsputil.h usr/include/libwspcodec/wspcodec
+build/libwspcodec.pc usr/lib/pkgconfig

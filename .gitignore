@@ -1,0 +1,7 @@
+*~
+build
+debian/*.log
+debian/*substvars
+debian/libwspcodec-dev
+debian/files
+debian/tmp
