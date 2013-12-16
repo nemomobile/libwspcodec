@@ -4,7 +4,7 @@ Release: 1
 Summary: WSP encoder and decoder library
 Group: Development/Libraries
 License: LGPL
-URL: http://github.com/nemomobile
+URL: https://github.com/nemomobile/libwspcodec
 Source: %{name}-%{version}.tar.bz2
 Requires: glib2 >= 2.0
 BuildRequires: glib2-devel >= 2.0
@@ -38,11 +38,11 @@ make install-dev DESTDIR=%{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{_libdir}/%{name}.so*
+%{_libdir}/%{name}.so.*
 
 %files devel
 %defattr(-,root,root,-)
-%{_libdir}/%{name}.so*
+%{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/libwspcodec.pc
 %{_includedir}/libwspcodec/wspcodec/wsputil.h
 %{_includedir}/libwspcodec/wspcodec/wspcodec.h
