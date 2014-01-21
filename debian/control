@@ -8,11 +8,11 @@ Standards-Version: 3.8.4
 Package: libwspcodec
 Section: libs
 Architecture: any
-Depends: libglib2.0-bin (>= 2.0)
+Depends: libglib2.0-bin (>= 2.32), ${shlibs:Depends}, ${misc:Depends}
 Description: WSP encoder and decoder library
 
 Package: libwspcodec-dev
 Section: libdevel
 Architecture: any
-Depends: libwspcodec (= ${binary:Version})
+Depends: libwspcodec (= ${binary:Version}), libglib2.0-dev (>= 2.32), ${misc:Depends}
 Description: Development files for libwspcodec

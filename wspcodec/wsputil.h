@@ -19,9 +19,13 @@
  *
  */
 
+#ifndef WSPUTIL_H
+#define WSPUTIL_H
+
 enum wsp_header_iter_flag {
 	WSP_HEADER_ITER_FLAG_REJECT_CP =		0x1,
 	WSP_HEADER_ITER_FLAG_DETECT_MMS_MULTIPART =	0x2,
+	WSP_HEADER_ITER_FLAG_DETECT_MULTIPART =		0x4,
 };
 
 enum wsp_header_type {
@@ -97,6 +101,7 @@ struct wsp_header_iter {
 	unsigned int pos;
 	unsigned int flags;
 	unsigned char code_page;
+	unsigned char content_type_header;
 
 	enum wsp_header_type header_type;
 	const void *header;
@@ -210,3 +215,5 @@ gboolean wsp_text_header_iter_init(struct wsp_text_header_iter *iter,
 gboolean wsp_text_header_iter_param_next(struct wsp_text_header_iter *iter);
 const char *wsp_text_header_iter_get_key(struct wsp_text_header_iter *iter);
 const char *wsp_text_header_iter_get_value(struct wsp_text_header_iter *iter);
+
+#endif /* WSPUTIL_H */

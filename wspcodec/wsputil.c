@@ -528,17 +528,12 @@ gboolean wsp_decode_application_id(struct wsp_header_iter *iter,
 }
 
 static inline gboolean is_content_type_header(const unsigned char *pdu,
-						unsigned char code_page,
-						unsigned int flags)
+						struct wsp_header_iter *iter)
 {
-	/* Check for MMS Content-Type header */
-	if (flags & WSP_HEADER_ITER_FLAG_DETECT_MMS_MULTIPART)
-		if (code_page == 1 && *pdu == 0x84)
+	/* Check for Content-Type header */
+	if (iter->flags & WSP_HEADER_ITER_FLAG_DETECT_MULTIPART)
+		if (iter->code_page == 1 && *pdu == iter->content_type_header)
 			return TRUE;
-
-	/* Check for WSP default Content-Type header */
-	if (code_page == 1 && *pdu == 0x91)
-		return TRUE;
 
 	return FALSE;
 }
@@ -639,6 +634,12 @@ void wsp_header_iter_init(struct wsp_header_iter *iter,
 	iter->max = len;
 	iter->code_page = 1;
 	iter->flags = flags;
+	if (flags & WSP_HEADER_ITER_FLAG_DETECT_MMS_MULTIPART) {
+		iter->flags |= WSP_HEADER_ITER_FLAG_DETECT_MULTIPART;
+		iter->content_type_header = 0x84;
+	} else {
+		iter->content_type_header = 0x91;
+	}
 }
 
 gboolean wsp_header_iter_next(struct wsp_header_iter *iter)
@@ -687,7 +688,7 @@ gboolean wsp_header_iter_next(struct wsp_header_iter *iter)
 		return FALSE;
 
 	if (*pdu >= 0x80) {
-		if (is_content_type_header(pdu, iter->code_page, iter->flags))
+		if (is_content_type_header(pdu, iter))
 			return FALSE;
 
 		header = WSP_HEADER_TYPE_WELL_KNOWN;
@@ -742,7 +743,7 @@ gboolean wsp_header_iter_is_multipart(struct wsp_header_iter *iter)
 {
 	const unsigned char *pdu = iter->pdu + iter->pos;
 
-	return is_content_type_header(pdu, iter->code_page, iter->flags);
+	return is_content_type_header(pdu, iter);
 }
 
 enum wsp_header_type wsp_header_iter_get_hdr_type(struct wsp_header_iter *iter)

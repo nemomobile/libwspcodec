@@ -1,5 +1,5 @@
 Name: libwspcodec
-Version: 1.0.0
+Version: 2.0.0
 Release: 1
 Summary: WSP encoder and decoder library
 Group: Development/Libraries
