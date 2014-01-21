@@ -15,7 +15,7 @@ all: debug release pkgconfig
 # Library version
 #
 
-VERSION_MAJOR = 1
+VERSION_MAJOR = 2
 VERSION_MINOR = 0
 VERSION_MICRO = 0
 VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_MICRO)
@@ -34,7 +34,7 @@ SRC = wsputil.c
 # Directories
 #
 
-SRC_DIR = src
+SRC_DIR = wspcodec
 BUILD_DIR = build
 DEBUG_BUILD_DIR = $(BUILD_DIR)/debug
 RELEASE_BUILD_DIR = $(BUILD_DIR)/release

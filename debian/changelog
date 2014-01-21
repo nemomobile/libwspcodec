@@ -1,3 +1,17 @@
+libwspcodec (2.0.0) unstable; urgency=low
+
+  * Made content type field configurable.
+    This resolves conflict between WSP Content-Type and X-Mms-Report-Allowed
+    headers (both are equal 0x11)
+
+ -- Slava Monich <slava.monich@jolla.com>  Thu, 26 Dec 2013 00:27:57 +0200
+
+libwspcodec (1.0.1) unstable; urgency=low
+
+  * Repackaged the sources, no API changes.
+
+ -- Slava Monich <slava.monich@jolla.com>  Thu, 26 Dec 2013 00:27:57 +0200
+
 libwspcodec (1.0.0) unstable; urgency=low
 
   * Initial release

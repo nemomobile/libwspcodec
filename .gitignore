@@ -2,6 +2,14 @@
 build
 debian/*.log
 debian/*substvars
+debian/libwspcodec
 debian/libwspcodec-dev
+debian/libwspcodec.postinst.debhelper
+debian/libwspcodec.postrm.debhelper
 debian/files
 debian/tmp
+documentation.list
+installroot
+libwspcodec.ncb
+libwspcodec.opt
+RPMS
