@@ -3,7 +3,7 @@ Version: 2.0.0
 Release: 1
 Summary: WSP encoder and decoder library
 Group: Development/Libraries
-License: LGPL
+License: GPLv2
 URL: https://github.com/nemomobile/libwspcodec
 Source: %{name}-%{version}.tar.bz2
 Requires: glib2 >= 2.0
