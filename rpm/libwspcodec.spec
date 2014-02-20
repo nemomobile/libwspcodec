@@ -26,7 +26,7 @@ This package contains the development library for %{name}.
 %setup -q
 
 %build
-make release pkgconfig
+make KEEP_SYMBOLS=1 release pkgconfig
 
 %install
 rm -rf %{buildroot}

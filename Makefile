@@ -1,4 +1,4 @@
-# -*- Mode: makefile -*-
+# -*- Mode: makefile-gmake -*-
 
 .PHONY: clean all debug release pkgconfig install install-dev
 
@@ -55,6 +55,15 @@ RELEASE_CFLAGS = -O2 $(CFLAGS) -MMD -MP
 RELEASE_LDFLAGS = $(LDFLAGS)
 ARFLAGS = rc
 
+ifndef KEEP_SYMBOLS
+KEEP_SYMBOLS = 0
+endif
+
+ifneq ($(KEEP_SYMBOLS),0)
+RELEASE_CFLAGS += -g
+RELEASE_LDFLAGS += -g
+endif
+
 #
 # Files
 #
@@ -104,7 +113,9 @@ $(DEBUG_LIB): $(DEBUG_BUILD_DIR) $(DEBUG_OBJS)
 
 $(RELEASE_LIB): $(RELEASE_BUILD_DIR) $(RELEASE_OBJS)
 	$(LD) -o $@ $(RELEASE_LDFLAGS) $(RELEASE_OBJS)
+ifeq ($(KEEP_SYMBOLS),0)
 	strip $@
+endif
 
 $(DEBUG_BUILD_DIR)/%.o : $(SRC_DIR)/%.c
 	$(CC) -c $(DEBUG_CFLAGS) -MF"$(@:%.o=%.d)" $< -o $@
