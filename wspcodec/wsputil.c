@@ -1254,6 +1254,26 @@ gboolean wsp_text_header_iter_init(struct wsp_text_header_iter *iter,
 	return TRUE;
 }
 
+struct wsp_text_header_iter *wsp_text_header_iter_new(const char *hdr)
+{
+	struct wsp_text_header_iter *iter;
+
+	iter = g_try_new(struct wsp_text_header_iter, 1);
+	if (!iter)
+		return NULL;
+
+	if (wsp_text_header_iter_init(iter, hdr))
+		return iter;
+
+	g_free(iter);
+	return NULL;
+}
+
+void wsp_text_header_iter_free(struct wsp_text_header_iter *iter)
+{
+	g_free(iter);
+}
+
 gboolean wsp_text_header_iter_param_next(struct wsp_text_header_iter *iter)
 {
 	unsigned int pos = iter->pos;
