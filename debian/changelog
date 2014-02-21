@@ -1,3 +1,11 @@
+libwspcodec (2.1.0) unstable; urgency=low
+
+  * Added wsp_text_header_iter_new/free.
+    struct wsp_text_header_iter is pretty big (> 4K), it should be allocated
+    dynamically.
+
+ -- Slava Monich <slava.monich@jolla.com>  Fri, 21 Feb 2014 16:36:45 +0200
+
 libwspcodec (2.0.0) unstable; urgency=low
 
   * Made content type field configurable.

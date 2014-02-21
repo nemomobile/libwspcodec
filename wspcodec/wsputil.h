@@ -210,6 +210,8 @@ void wsp_parameter_iter_init(struct wsp_parameter_iter *pi,
 gboolean wsp_parameter_iter_next(struct wsp_parameter_iter *pi,
 					struct wsp_parameter *out_param);
 
+struct wsp_text_header_iter *wsp_text_header_iter_new(const char *hdr);
+void wsp_text_header_iter_free(struct wsp_text_header_iter *iter);
 gboolean wsp_text_header_iter_init(struct wsp_text_header_iter *iter,
 					const char *hdr);
 gboolean wsp_text_header_iter_param_next(struct wsp_text_header_iter *iter);
