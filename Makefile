@@ -124,7 +124,7 @@ $(RELEASE_BUILD_DIR)/%.o : $(SRC_DIR)/%.c
 	$(CC) -c $(RELEASE_CFLAGS) -MF"$(@:%.o=%.d)" $< -o $@
 
 $(PKGCONFIG): libwspcodec.pc.in
-	sed -e 's/\[version\]/'$(VERSION)/g $< >> $@
+	sed -e 's/\[version\]/'$(VERSION)/g $< > $@
 
 #
 # Install
