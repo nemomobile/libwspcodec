@@ -3,6 +3,7 @@
  *  Multimedia Messaging Service
  *
  *  Copyright (C) 2010-2011  Intel Corporation. All rights reserved.
+ *  Copyright (C) 2013-2014  Jolla Ltd.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2 as
@@ -739,11 +740,24 @@ gboolean wsp_header_iter_at_end(struct wsp_header_iter *iter)
 	return FALSE;
 }
 
+gboolean wsp_header_iter_is_content_type(struct wsp_header_iter *iter)
+{
+	return iter->max > iter->pos &&
+				is_content_type_header(iter->pdu + iter->pos, iter);
+}
+
 gboolean wsp_header_iter_is_multipart(struct wsp_header_iter *iter)
 {
-	const unsigned char *pdu = iter->pdu + iter->pos;
+	const void *value;
 
-	return is_content_type_header(pdu, iter);
+	if (!wsp_header_iter_is_content_type(iter))
+		return FALSE;
+
+	if (!wsp_decode_content_type(iter->pdu + iter->pos + 1,
+						iter->max - iter->pos - 1, &value, NULL, NULL))
+		return FALSE;
+
+	return strstr(value, "application/vnd.wap.multipart.") == value;
 }
 
 enum wsp_header_type wsp_header_iter_get_hdr_type(struct wsp_header_iter *iter)
