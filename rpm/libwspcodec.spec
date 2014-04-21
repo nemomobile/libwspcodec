@@ -1,5 +1,5 @@
 Name: libwspcodec
-Version: 2.1
+Version: 2.2
 Release: 0
 Summary: WSP encoder and decoder library
 Group: Development/Libraries
@@ -42,7 +42,7 @@ make install-dev DESTDIR=%{buildroot}
 
 %files devel
 %defattr(-,root,root,-)
-%{_libdir}/%{name}-2.1.so
+%{_libdir}/%{name}-2.2.so
 %{_libdir}/pkgconfig/libwspcodec.pc
 %{_includedir}/libwspcodec/wspcodec/wsputil.h
 %{_includedir}/libwspcodec/wspcodec/wspcodec.h

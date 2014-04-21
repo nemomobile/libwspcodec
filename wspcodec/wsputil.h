@@ -3,6 +3,7 @@
  *  Multimedia Messaging Service
  *
  *  Copyright (C) 2010-2011  Intel Corporation. All rights reserved.
+ *  Copyright (C) 2013-2014  Jolla Ltd.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2 as
@@ -172,6 +173,7 @@ gboolean wsp_header_iter_next(struct wsp_header_iter *iter);
 unsigned char wsp_header_iter_get_code_page(struct wsp_header_iter *iter);
 
 gboolean wsp_header_iter_at_end(struct wsp_header_iter *iter);
+gboolean wsp_header_iter_is_content_type(struct wsp_header_iter *iter);
 gboolean wsp_header_iter_is_multipart(struct wsp_header_iter *iter);
 
 enum wsp_header_type wsp_header_iter_get_hdr_type(struct wsp_header_iter *iter);

@@ -1,3 +1,10 @@
+libwspcodec (2.2.0) unstable; urgency=low
+
+  * Added wsp_header_iter_is_content_type()
+  * Made wsp_header_iter_is_multipart() check stricter
+
+ -- Slava Monich <slava.monich@jolla.com>  Mon, 21 Apr 2014 01:04:25 +0300
+
 libwspcodec (2.1.0) unstable; urgency=low
 
   * Took out wsp_text_header_iter stuff.
