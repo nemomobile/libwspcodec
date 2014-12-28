@@ -47,29 +47,32 @@ CC = $(CROSS_COMPILE)gcc
 LD = $(CC)
 WARNINGS = -Wall
 INCLUDES = -I$(SRC_DIR)
-CFLAGS = -fPIC $(WARNINGS) $(INCLUDES) $(shell pkg-config --cflags $(PKGS))
-LDFLAGS = -fPIC -shared -Wl,-soname -Wl,$(LIB_SONAME)
-DEBUG_CFLAGS = -g -DDEBUG $(CFLAGS) -MMD -MP
-DEBUG_LDFLAGS = -g $(LDFLAGS)
-RELEASE_CFLAGS = -O2 $(CFLAGS) -MMD -MP
-RELEASE_LDFLAGS = $(LDFLAGS)
-ARFLAGS = rc
+BASE_FLAGS = -fPIC
+CFLAGS = $(BASE_FLAGS) $(DEFINES) $(WARNINGS) $(INCLUDES) -MMD -MP \
+  $(shell pkg-config --cflags $(PKGS))
+LDFLAGS = $(BASE_FLAGS) -shared -Wl,-soname,$(LIB_SONAME) \
+  $(shell pkg-config --libs $(PKGS))
+DEBUG_FLAGS = -g
+RELEASE_FLAGS =
 
 ifndef KEEP_SYMBOLS
 KEEP_SYMBOLS = 0
 endif
 
 ifneq ($(KEEP_SYMBOLS),0)
-RELEASE_CFLAGS += -g
-RELEASE_LDFLAGS += -g
+RELEASE_FLAGS += -g
 endif
+
+DEBUG_LDFLAGS = $(LDFLAGS) $(DEBUG_FLAGS)
+RELEASE_LDFLAGS = $(LDFLAGS) $(RELEASE_FLAGS)
+DEBUG_CFLAGS = $(CFLAGS) $(DEBUG_FLAGS) -DDEBUG
+RELEASE_CFLAGS = $(CFLAGS) $(RELEASE_FLAGS) -O2
 
 #
 # Files
 #
 
 PKGCONFIG = $(BUILD_DIR)/libwspcodec.pc
-SRC_FILES = $(SRC:%=$(SRC_DIR)/%)
 DEBUG_OBJS = $(SRC:%.c=$(DEBUG_BUILD_DIR)/%.o)
 RELEASE_OBJS = $(SRC:%.c=$(RELEASE_BUILD_DIR)/%.o)
 
@@ -87,6 +90,7 @@ endif
 #
 # Rules
 #
+
 DEBUG_LIB = $(DEBUG_BUILD_DIR)/$(LIB)
 RELEASE_LIB = $(RELEASE_BUILD_DIR)/$(LIB)
 
@@ -97,7 +101,11 @@ release: $(RELEASE_LIB)
 pkgconfig: $(PKGCONFIG)
 
 clean:
-	rm -fr $(BUILD_DIR) *~ $(SRC_DIR)/*~
+	rm -f *~ $(SRC_DIR)/*~
+	rm -fr $(BUILD_DIR) RPMS installroot
+	rm -fr debian/tmp debian/libwspcodec debian/libwspcodec-dev
+	rm -f documentation.list debian/files debian/*.substvars
+	rm -f debian/*.debhelper.log debian/*.debhelper
 
 $(BUILD_DIR):
 	mkdir -p $@
@@ -109,10 +117,10 @@ $(RELEASE_BUILD_DIR):
 	mkdir -p $@
 
 $(DEBUG_LIB): $(DEBUG_BUILD_DIR) $(DEBUG_OBJS)
-	$(LD) -o $@ $(DEBUG_LDFLAGS) $(DEBUG_OBJS)
+	$(LD) $(DEBUG_OBJS) $(DEBUG_LDFLAGS) -o $@
 
 $(RELEASE_LIB): $(RELEASE_BUILD_DIR) $(RELEASE_OBJS)
-	$(LD) -o $@ $(RELEASE_LDFLAGS) $(RELEASE_OBJS)
+	$(LD) $(RELEASE_OBJS) $(RELEASE_LDFLAGS) -o $@
 ifeq ($(KEEP_SYMBOLS),0)
 	strip $@
 endif
@@ -144,7 +152,7 @@ INSTALL_PKGCONFIG_DIR = $(DESTDIR)/usr/lib/pkgconfig
 
 INSTALL_ALIAS = $(INSTALL_LIB_DIR)/$(LIB_SHORTCUT)
 
-install: $(INSTALL_LIB_DIR) 
+install: $(INSTALL_LIB_DIR)
 	$(INSTALL_FILES) $(RELEASE_LIB) $(INSTALL_LIB_DIR)
 	ln -sf $(LIB) $(INSTALL_ALIAS)
 
