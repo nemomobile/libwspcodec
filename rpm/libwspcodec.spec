@@ -6,7 +6,6 @@ Group: Development/Libraries
 License: GPLv2
 URL: https://github.com/nemomobile/libwspcodec
 Source: %{name}-%{version}.tar.bz2
-Requires: glib2 >= 2.0
 BuildRequires: glib2-devel >= 2.0
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
